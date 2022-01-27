@@ -1,0 +1,7 @@
+MyFile.txt
+Group.txt
+MyGroup.txt
+resultFile.txt
+qwe.txt
+file.txt
+resultFiletx.txt
