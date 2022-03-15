@@ -1,0 +1,6 @@
+﻿  Source.cpp
+E:\Repository\OAIP\Лабы_Сем_2\ОПЗ\ОПЗ\Source.cpp(25,8): warning C4101: symbol: неиспользованная локальная переменная
+E:\Repository\OAIP\Лабы_Сем_2\ОПЗ\ОПЗ\Source.cpp(25,24): warning C4101: Out: неиспользованная локальная переменная
+E:\Repository\OAIP\Лабы_Сем_2\ОПЗ\ОПЗ\Source.cpp(106,13): warning C4553: "==": результат выражения не используется; вы хотели использовать "="?
+E:\Repository\OAIP\Лабы_Сем_2\ОПЗ\ОПЗ\Source.cpp(74): warning C4715: Prior: значение возвращается не при всех путях выполнения
+  ОПЗ.vcxproj -> E:\Repository\OAIP\Лабы_Сем_2\ОПЗ\Debug\ОПЗ.exe
