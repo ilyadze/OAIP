@@ -24,7 +24,7 @@ struct list
 const char nameOfFile[] = "nameOfFile.txt";
 const int nameLength = 21;
 
-
+void sortList(list*, int);
 bool fileCheck(char*);
 bool openingCheck(char*);
 list* fillingList(int);
@@ -64,70 +64,65 @@ int main()
 	do
 	{
 		system("cls");
-		cout << "Select actions " << endl
-			<< "\n1.Create spisok "
-			<< "\n2.List view "
-			<< "\n3.Edit list "
-			<< "\n4.Additional task "
-			<< "\nExit" << endl;
-		switch (_getch())
+		char fileName[nameLength];
+		cout << "If you want to create new file press 1, else press any buttons" << endl;
+		if (_getch() == '1')
 		{
-		case '1':
-		{
-			system("cls");
-			char fileName[nameLength];
-			cout << "Enter name of file" << endl;
-			input(fileName);
-			if (fileCheck(fileName))
-			{
-				if (!openingCheck(fileName))
-				{
-					cout << "Error,file is not open" << endl;
-					break;
-				}
-				system("cls");
-				cout << "Enter the number of students" << endl;
-				int size;
-				size = inputNumber();
-				fillingFile(fileName, fillingList(size), size);
-			}
-			else
 			{
 				system("cls");
-				cout << "This file has already been created" << endl
-					<< "Is the file is " << sizeOfFile(fileName) << " bytes" << endl
-					<< "If you want to delete everything that was in this file and write again press 1" << endl
-					<< "If not press any other button" << endl;
-				if (_getch() == '1')
+				cout << "Enter name of file" << endl;
+				input(fileName);
+				if (fileCheck(fileName))
 				{
 					if (!openingCheck(fileName))
 					{
-						system("cls");
 						cout << "Error,file is not open" << endl;
-						_getch();
 						break;
 					}
 					system("cls");
-					int size;
 					cout << "Enter the number of students" << endl;
+					int size;
 					size = inputNumber();
 					fillingFile(fileName, fillingList(size), size);
 				}
 				else
 				{
-					break;
+					system("cls");
+					cout << "This file has already been created" << endl
+						<< "Is the file is " << sizeOfFile(fileName) << " bytes" << endl
+						<< "If you want to delete everything that was in this file and write again press 1" << endl
+						<< "If not press any other button" << endl;
+					if (_getch() == '1')
+					{
+						if (!openingCheck(fileName))
+						{
+							system("cls");
+							cout << "Error,file is not open" << endl;
+							_getch();
+							break;
+						}
+						system("cls");
+						int size;
+						cout << "Enter the number of students" << endl;
+						size = inputNumber();
+						fillingFile(fileName, fillingList(size), size);
+					}
+					else
+					{
+						break;
+					}
 				}
+
 			}
-			break;
 		}
-		case '2':
+		else
 		{
 			system("cls");
 			cout << "What file do you want to view" << endl;
 			char** fileNames = outNamesFiles();
 			conclusionName(fileNames);
 			cout << "Select the name of the file you want to watch" << endl;
-			int nameNumber,size = numberOfStructures();
+			int nameNumber, size = numberOfStructures();
 			nameNumber = inputNumber(size);
 			nameNumber -= 1;
 			if (!openingCheck(fileNames[nameNumber]))
@@ -143,315 +138,182 @@ int main()
 				cout << "File is empty" << endl;
 				break;
 			}
-			outList(outFile(fileNames[nameNumber]), numberOfStructures(fileNames[nameNumber]));
-			for (int i = 0; i < size;i++)
+			strCopy(fileName, fileNames[nameNumber]);
+			for (int i = 0;i < size;i++)
 			{
-				delete[] fileNames[i];
+				delete[]fileNames[i];
 			}
-			delete[] fileNames;
-			_getch();
-			break;
+			delete[]fileNames;
+
 		}
-		case '3':
+
+		do
 		{
 			system("cls");
-			cout << "What file do you want to edit" << endl;
-			char** fileNames = outNamesFiles();
-			conclusionName(fileNames);
-			cout << "Select the name of the file you want to edit" << endl;
-			int nameNumber,nameNumbers = numberOfStructures();
-			nameNumber = inputNumber(nameNumbers);
-			nameNumber--;
-			if (!openingCheck(fileNames[nameNumber]))
-			{
-				system("cls");
-				cout << "Error,file is not open" << endl;
-				_getch();
-				break;
-			}
-			if (fileCheck(fileNames[nameNumber]))
-			{
-				cout << "File is empty" << endl;
-				break;
-			}
-			cout << "\nYou want to see what is in the file" << endl
-				<< "If yes then press 1" << endl
-				<< "If not, then press any other button" << endl;
-			if (_getch() == '1')
-			{
-				system("cls");
-				outList(outFile(fileNames[nameNumber]), numberOfStructures(fileNames[nameNumber]));
-				_getch();
-			}
-			system("cls");
-			cout << "Select correction option:"
-				<< "\n1.Delete"
-				<< "\n2.Adding to the end"
-				<< "\n3.The change"
-				<< "\nCome back" << endl;
+			cout << "Select actions " << endl
+				<< "\n1.List view "
+				<< "\n2.Edit list "
+				<< "\n3.Additional task "
+				<< "\n4.Back to select file"
+				<< "\nExit" << endl;
+			bool buttonComeBack = false;
 			switch (_getch())
 			{
 			case '1':
 			{
 				system("cls");
-				cout << "Enter the number of students you want to remove" << endl;
-				int size;
-				size = inputNumber();
-				cout << "Enter the numbers of the students you want to remove" << endl;
-				int* numbers = new int[size];
-				for (int i = 0;i < size;i++)
-				{
-					numbers[i] = inputNumber();
-				}
-				int sizeList = numberOfStructures(fileNames[nameNumber]);
-				list* students = new list[sizeList];
-				students = remevalFromTheList(fileNames[nameNumber], outFile(fileNames[nameNumber]), numbers, size);
-				sizeList -= size;
-				fillingFile(fileNames[nameNumber], students, sizeList);
-				outList(students, sizeList);
+				outList(outFile(fileName), numberOfStructures(fileName));
 				_getch();
-				delete[] students;
-				delete[] numbers;
 				break;
 			}
-
 			case '2':
 			{
 				system("cls");
-				cout << "Enter the number of students you want to add" << endl;
-				int size;
-				size = inputNumber();
-				addToFile(fileNames[nameNumber], fillingList(size), size);
+				cout << "Select correction option:"
+					<< "\n1.Delete"
+					<< "\n2.Adding to the end"
+					<< "\n3.The change"
+					<< "\n4.Sorting list"
+					<< "\nCome back" << endl;
+				switch (_getch())
+				{
+				case '1':
+				{
+					system("cls");
+					cout << "Enter the number of students you want to remove" << endl;
+					int size;
+					size = inputNumber();
+					cout << "Enter the numbers of the students you want to remove" << endl;
+					int* numbers = new int[size];
+					int sizeList = numberOfStructures(fileName);
+					for (int i = 0;i < size;i++)
+					{
+						numbers[i] = inputNumber(sizeList);
+					}
+					list* students = new list[sizeList];
+					students = remevalFromTheList(fileName, outFile(fileName), numbers, size);
+					sizeList -= size;
+					fillingFile(fileName, students, sizeList);
+					outList(students, sizeList);
+					_getch();
+					delete[] students;
+					delete[] numbers;
+					break;
+				}
+
+				case '2':
+				{
+					system("cls");
+					cout << "Enter the number of students you want to add" << endl;
+					int size;
+					size = inputNumber();
+					addToFile(fileName, fillingList(size), size);
+					break;
+				}
+				case '3':
+				{
+					system("cls");
+					int sizeList = numberOfStructures(fileName);
+					list* students = outFile(fileName);
+					cout << "Enter the student you want to change" << endl;
+					int studentNumber;
+					studentNumber = inputNumber();
+					studentNumber--;
+					students[studentNumber] = fillingList();
+					fillingFile(fileName, students, sizeList);
+					delete[] students;
+					break;
+				}
+				case '4':
+				{
+					system("cls");
+					int sizeList = numberOfStructures(fileName);
+					list* students = outFile(fileName);
+					sortList(students, sizeList);
+					fillingFile(fileName, students, sizeList);
+					outList(students, sizeList);
+					_getch();
+				}
+				default:
+				{
+					break;
+				}
+				}
 				break;
 			}
 			case '3':
 			{
 				system("cls");
-				int sizeList = numberOfStructures(fileNames[nameNumber]);
-				list* students = outFile(fileNames[nameNumber]);
-				cout << "Enter the student you want to change" << endl;
-				int studentNumber;
-				studentNumber = inputNumber();
-				studentNumber--;
-				students[studentNumber] = fillingList();
-				fillingFile(fileNames[nameNumber], students, sizeList);
-				delete[] students;
+				char resultFileName[nameLength];
+				cout << "Enter name of file" << endl;
+				input(resultFileName);
+				if (!fileCheck(resultFileName))
+				{
+					system("cls");
+					cout << "This file has already been created" << endl
+						<< "Is the file is " << sizeOfFile(resultFileName) << " bytes" << endl
+						<< "If you do not want to delete everything that was in this file and write again press 1" << endl
+						<< "If not press any other button" << endl;
+					if (_getch() == '1')
+					{
+						break;
+					}
+				}
+				system("cls");
+				cout << "Enter number of group" << endl;
+				list* students = outFile(fileName);
+				int size = numberOfStructures(fileName), amount = 0;
+				int* numberOfGroup = groupNumber(students, size, amount);
+				conclusionGroup(numberOfGroup, amount);
+				int number = inputNumber(amount);
+				number--;
+				double averageScore = averageScoreAll(fileName, students, size);
+				cout << "Average score - " << averageScore << endl;
+				bool flag = false;
+				for (int i = 0;i < size;i++)
+				{
+					if (students[i].average_score >= averageScore && students[i].numberOfGroup == numberOfGroup[number])
+					{
+						outList(students[i]);
+						addToFile(resultFileName, students[i]);
+						flag = true;
+					}
+				}
+				if (!flag)
+				{
+					cout << "There are no students with a score above the average" << endl;
+				}
+				_getch();
+				delete[]students;
+				int nameNumbers = numberOfStructures();
+				delete[]numberOfGroup;
+				break;
+			}
+			case '4':
+			{
+				buttonComeBack = true;
 				break;
 			}
 			default:
 			{
-				break;
-			}
-			}
-
-			
-			for (int i = 0; i < nameNumber;i++)
-			{
-				delete[] fileNames[i];
-			}
-			delete[] fileNames;
-			break;
-		}
-		case '4':
-		{
-			system("cls");
-			cout << "To which file do you want to apply additional tasks" << endl;
-			char** fileNames = outNamesFiles();
-			conclusionName(fileNames);
-			cout << "Select the name of the file you want to edit" << endl;
-			int nameNumber;
-			nameNumber = inputNumber(numberOfStructures());
-			nameNumber--;
-			if (!openingCheck(fileNames[nameNumber]))
-			{
 				system("cls");
-				cout << "Error,file is not open" << endl;
-				break;
-			}
-			system("cls");
-			char resultFileName[nameLength];
-			cout << "Enter name of file" << endl;
-			input(resultFileName);
-			if (!fileCheck(resultFileName))
-			{
-				system("cls");
-				cout << "This file has already been created" << endl
-					<< "Is the file is " << sizeOfFile(resultFileName) << " bytes" << endl
-					<< "If you do not want to delete everything that was in this file and write again press 1" << endl
-					<< "If not press any other button" << endl;
+				cout << "Are you sure you want to exit,if so press 1" << endl;
 				if (_getch() == '1')
 				{
-					break;
+					return 0;
 				}
 			}
-			system("cls");
-			cout << "Enter number of group" << endl;
-			list* students = outFile(fileNames[nameNumber]);
-			int size = numberOfStructures(fileNames[nameNumber]), amount = 0;
-			int* numberOfGroup = groupNumber(students, size, amount);
-			conclusionGroup(numberOfGroup, amount);
-			int number = inputNumber(amount);
-			number--;
-			double averageScore = averageScoreAll(fileNames[nameNumber], students, size);
-			cout << "Average score - " << averageScore << endl;
-			bool flag = false;
-			for (int i = 0;i < size;i++)
-			{
-				if (students[i].average_score >= averageScore && students[i].numberOfGroup == numberOfGroup[number])
-				{
-					outList(students[i]);
-					addToFile(resultFileName, students[i]);
-					flag = true;
-				}
 			}
-			if (!flag)
+			if (buttonComeBack)
 			{
-				cout << "There are no students with a score above the average" << endl;
-			}
-			_getch();
-			delete[]students;
-			int nameNumbers = numberOfStructures();
-			for (int i = 0;i < nameNumbers;i++)
-			{
-				delete[]fileNames[i];
-			}
-			delete[]fileNames;
-			delete[]numberOfGroup;
-			break;
-		}
-		/*case '5':
-		{
-			system("cls");
-			cout << "To which file do you want to apply additional tasks" << endl;
-			char** fileNames = outNamesFiles();
-			conclusionName(fileNames);
-			cout << "Select the name of the file you want to edit" << endl;
-			int nameNumber;
-			nameNumber = inputNumber(numberOfStructures());
-			nameNumber--;
-			if (!openingCheck(fileNames[nameNumber]))
-			{
-				system("cls");
-				cout << "Error,file is not open" << endl;
 				break;
 			}
-			system("cls");
-			int size = numberOfStructures(fileNames[nameNumber]);
-			sortList(fileNames[nameNumber], size);
-			break;
-		}*/
-		default:
-		{
-			system("cls");
-			cout << "Are you sure you want to exit,if so press 1" << endl;
-			if (_getch() == '1')
-			{
-				return 0;
-			}
-		}
-		}
-	} while (1);
+		} while (true);
+	} while (true);
 }
 
 
 
-
-
-//void sortList(char* name, int size) 
-//{
-//	fstream file;
-//	file.open(name, fstream:: in | fstream::out |fstream::app);
-//	list student,studentCmp;
-//	char str[1024];
-//	for (int i = 0;i < size - 1;i++)
-//	{
-//		file >> student.Fio
-//		>> student.numberOfGroup
-//		>> student.birthday.day >> student.birthday.month >> student.birthday.year
-//		>> student.mark[0] >> student.mark[1] >> student.mark[2] >> student.mark[3]
-//		>> student.average_score;
-//		for (int j = 0;j < size;j++)
-//		{
-//			file >> studentCmp.Fio
-//				>> studentCmp.numberOfGroup
-//				>> studentCmp.birthday.day >> studentCmp.birthday.month >> studentCmp.birthday.year
-//				>> studentCmp.mark[0] >> studentCmp.mark[1] >> studentCmp.mark[2] >> studentCmp.mark[3]
-//				>> studentCmp.average_score;
-//			if (cmp(student.Fio,studentCmp.Fio))
-//			{
-//				file.seekg(0);
-//				for (int k = 0;k < i;k++)
-//				{
-//					file.getline(str, 1024, '\n');
-//				}
-//				
-//				file << studentCmp.Fio << ' '
-//					<< studentCmp.numberOfGroup << ' '
-//					<< studentCmp.birthday.day << ' ' << studentCmp.birthday.month << ' ' << studentCmp.birthday.year << ' '
-//					<< studentCmp.mark[0] << ' ' << studentCmp.mark[1] << ' ' << studentCmp.mark[2] << ' ' << studentCmp.mark[3] << ' '
-//					<< (studentCmp.mark[0] + studentCmp.mark[1] + studentCmp.mark[2] + studentCmp.mark[3]) / 4. << endl;
-//				file.seekg(0);
-//				for (int k = 0;k < j - 1;k++)
-//				{
-//					file.getline(str, 1024, '\n');
-//				}
-//
-//				file << student.Fio << ' '
-//					<< student.numberOfGroup << ' '
-//					<< student.birthday.day << ' ' << student.birthday.month << ' ' << student.birthday.year << ' '
-//					<< student.mark[0] << ' ' << student.mark[1] << ' ' << student.mark[2] << ' ' << student.mark[3] << ' '
-//					<< (student.mark[0] + student.mark[1] + student.mark[2] + student.mark[3]) / 4. << endl;
-//				
-//			}
-//			
-//		}
-//		file.seekg(0, 0);
-//		for (int k = 0;k < i + 1;k++)
-//		{
-//			file.getline(str,30,'\n');
-//		}
-//		
-//	}
-//	file.close();
-//}
-
-//void sortList(char* name, int size)
-//{
-//	ifstream file;
-//	ofstream fileResult;
-//	fileResult.open("resultCmp.txt");
-//	file.open(name);
-//	list student, studentCmp;
-//	char str[1024];
-//	for (int i = 0;i < size - 1;i++)
-//	{
-//		file >> student.Fio
-//			>> student.numberOfGroup
-//			>> student.birthday.day >> student.birthday.month >> student.birthday.year
-//			>> student.mark[0] >> student.mark[1] >> student.mark[2] >> student.mark[3]
-//			>> student.average_score;
-//		for (int j = 0;j < size;j++)
-//		{
-//			file >> studentCmp.Fio
-//				>> studentCmp.numberOfGroup
-//				>> studentCmp.birthday.day >> studentCmp.birthday.month >> studentCmp.birthday.year
-//				>> studentCmp.mark[0] >> studentCmp.mark[1] >> studentCmp.mark[2] >> studentCmp.mark[3]
-//				>> studentCmp.average_score;
-//			if (cmp(student.Fio, studentCmp.Fio))
-//			{
-//				fileResult << studentCmp.Fio << ' '
-//					<< studentCmp.numberOfGroup << ' '
-//					<< studentCmp.birthday.day << ' ' << studentCmp.birthday.month << ' ' << studentCmp.birthday.year << ' '
-//					<< studentCmp.mark[0] << ' ' << studentCmp.mark[1] << ' ' << studentCmp.mark[2] << ' ' << studentCmp.mark[3] << ' '
-//					<< (studentCmp.mark[0] + studentCmp.mark[1] + studentCmp.mark[2] + studentCmp.mark[3]) / 4. << endl;
-//			}
-//
-//		}
-//
-//	}
-//	file.close();
-//	fileResult.close();
-//}
 
 bool fileCheck(char* fileName)
 {
@@ -475,7 +337,7 @@ bool fileCheck(char* fileName)
 				{
 					return 1;
 				}
-				else 
+				else
 				{
 					ofstream fileNames;
 					fileNames.open(nameOfFile, fstream::app);
@@ -559,12 +421,18 @@ void fillingFile(char* fileName, list* students, int size)
 	file.open(fileName);
 	for (int i = 0;i < size;i++)
 	{
+		students[i].average_score = (students[i].mark[0] + students[i].mark[1] + students[i].mark[2] + students[i].mark[3]) / 4.;
+	}
+
+	file.write((char*)students, sizeof(list) * size);
+	/*for (int i = 0;i < size;i++)
+	{
 		file << students[i].Fio << ' '
 			<< students[i].numberOfGroup << ' '
 			<< students[i].birthday.day << ' ' << students[i].birthday.month << ' ' << students[i].birthday.year << ' '
 			<< students[i].mark[0] << ' ' << students[i].mark[1] << ' ' << students[i].mark[2] << ' ' << students[i].mark[3] << ' '
 			<< (students[i].mark[0] + students[i].mark[1] + students[i].mark[2] + students[i].mark[3]) / 4. << endl;
-	}
+	}*/
 	file.close();
 }
 
@@ -658,14 +526,15 @@ list* outFile(char* fileName)
 	int size = numberOfStructures(fileName);
 	students = new list[size];
 	int i;
-	for (i = 0;i < size;i++)
+	file.read((char*)students, sizeof(list) * size);
+	/*for (i = 0;i < size;i++)
 	{
 		file >> students[i].Fio
 			>> students[i].numberOfGroup
 			>> students[i].birthday.day >> students[i].birthday.month >> students[i].birthday.year
 			>> students[i].mark[0] >> students[i].mark[1] >> students[i].mark[2] >> students[i].mark[3]
 			>> students[i].average_score;
-	}
+	}*/
 	file.close();
 	return students;
 }
@@ -697,12 +566,11 @@ char** resizeArray(int oldSize, int newSize, char** oldArray)
 	{
 		newArray[i] = new char[nameLength];
 	}
-	oldSize = newSize < oldSize ? newSize : oldSize;
-	for (int i = 0;i < oldSize;i++)
+	newSize = newSize < oldSize ? newSize : oldSize;
+	for (int i = 0;i < newSize;i++)
 	{
 		strCopy(newArray[i], oldArray[i]);
 	}
-	oldSize = newSize;
 	for (int i = 0;i < oldSize;i++)
 	{
 		delete[] oldArray[i];
@@ -777,14 +645,16 @@ int numberOfStructures(char* fileName)
 	{
 		return 0;
 	}
-	char sizeName[1024];
+	int size = sizeOfFile(fileName);
+	size /= sizeof(list);
+	/*char sizeName[1024];
 	int size = 0;
 	while (!file.eof())
 	{
 		file.getline(sizeName, 1024, '\n');
 		size++;
 	}
-	size--;
+	size--;*/
 	return size;
 }
 
@@ -955,8 +825,8 @@ void input(char* str)
 	str[i + 1] = 't';
 	str[i + 2] = 'x';
 	str[i + 3] = 't';
-	i+=4;
-	
+	i += 4;
+
 	str[i] = '\0';
 }
 
@@ -988,7 +858,7 @@ void inputFIO(char* str)
 int inputNumber(int n)
 {
 	char str[20];
-	int i = 0,number = 0;
+	int i = 0, number = 0;
 	while (1)
 	{
 		str[i] = _getch();
@@ -1045,5 +915,22 @@ int inputNumber()
 		i++;
 	}
 	return number;
+}
+
+void sortList(list* students, int size)
+{
+	char number[nameLength];
+	for (int i = 0;i < size - 1;i++)
+	{
+		for (int j = i + 1;j < size;j++)
+		{
+			if (cmp(students[i].Fio, students[j].Fio))
+			{
+				strCopy(number, students[i].Fio);
+				strCopy(students[i].Fio, students[j].Fio);
+				strCopy(students[j].Fio, number);
+			}
+		}
+	}
 }
 

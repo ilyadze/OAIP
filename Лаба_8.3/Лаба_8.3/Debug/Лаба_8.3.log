@@ -1,3 +1,4 @@
 ﻿  Source.cpp
-E:\Лабы\Лаба_8\Лаба_8.3\Лаба_8.3\Лаба_8.3\Source.cpp(851,25): warning C4244: =: преобразование "std::streamoff" в "int", возможна потеря данных
-  Лаба_8.3.vcxproj -> E:\Лабы\Лаба_8\Лаба_8.3\Лаба_8.3\Debug\Лаба_8.3.exe
+E:\Repository\OAIP\Лаба_8.3\Лаба_8.3\Source.cpp(528,6): warning C4101: i: неиспользованная локальная переменная
+E:\Repository\OAIP\Лаба_8.3\Лаба_8.3\Source.cpp(721,25): warning C4244: =: преобразование "std::streamoff" в "int", возможна потеря данных
+  Лаба_8.3.vcxproj -> E:\Repository\OAIP\Лаба_8.3\Debug\Лаба_8.3.exe
