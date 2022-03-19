@@ -80,26 +80,34 @@ int main()
 				int info;
 				cout << "Enter info" << endl;
 				cin >> info;
-				cout << "Select add option" << endl;
+				cout << "Select add option" << endl
+					<< "1.To the begging" << endl
+					<< "2.To the end" << endl;
 				switch (_getch()) {
 				case '1': {
 					begin = InBegin(begin, info);
+					break;
 				}
 				case '2': {
 					begin = InEnd(begin, info);
+					break;
 				}
 				}
 
 				break;
 			}
 			case '2': {
-				cout << "Select view option" << endl;
+				cout << "Select view option" << endl
+					<< "1.From the begin" << endl
+					<< "2.From the end" << endl;
 				switch (_getch()) {
 				case '1': {
 					View(begin);
+					break;
 				}
 				case '2': {
 					ViewFromTheEnd(end);
+					break;
 				}
 				}
 				
@@ -130,6 +138,7 @@ int main()
 				begin = DistanceBetweenMinMax(begin, minElement, maxElement);
 				cout << "\nNew Stack:";
 				View(begin);
+				_getch();
 				break;
 			}
 			case '5': {

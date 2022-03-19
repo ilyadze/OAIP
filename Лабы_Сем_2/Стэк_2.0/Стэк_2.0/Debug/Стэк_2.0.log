@@ -1,3 +1,3 @@
 ﻿  Source.cpp
-E:\Лабы_Сем_2\Лаба_2\Стэк_2.0\Стэк_2.0\Source.cpp(28,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-  Стэк_2.0.vcxproj -> E:\Лабы_Сем_2\Лаба_2\Стэк_2.0\Debug\Стэк_2.0.exe
+E:\Repository\OAIP\Лабы_Сем_2\Стэк_2.0\Стэк_2.0\Source.cpp(28,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+  Стэк_2.0.vcxproj -> E:\Repository\OAIP\Лабы_Сем_2\Стэк_2.0\Debug\Стэк_2.0.exe

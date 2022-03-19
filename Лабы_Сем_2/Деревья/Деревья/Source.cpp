@@ -13,7 +13,7 @@ Tree* Make(Tree*);
 Tree* List(int);
 void DeleteAll(Tree*);
 Tree* Delete(Tree*, int);
-void View(Tree*);
+void View(Tree*,int);
 Tree* addElement(Tree*, int);
 
 
@@ -28,9 +28,10 @@ int main()
 		cin >> infoOfRoot;
 		root = List(infoOfRoot);
 		root = Make(root);
-		View(root);
+		View(root,0);
 		_getch();
 		do {
+			system("cls");
 			cout << "Enter the tree option" << endl
 				<< "1.View" << endl
 				<< "2.Add element" << endl
@@ -40,8 +41,9 @@ int main()
 			switch (_getch()) {
 			case '1': {
 				system("cls");
-				View(root);
+				View(root,0);
 				_getch();
+				break;
 			}
 			case '2': {
 				system("cls");
@@ -57,7 +59,7 @@ int main()
 				int key;
 				cin >> key;
 				root = Delete(root, key);
-				View(root);
+				View(root,0);
 				_getch();
 				break;
 			}
@@ -255,13 +257,17 @@ Tree* Delete(Tree* Root, int key)
 	return Root;
 }
 
-void View(Tree* t)
-{
+void View(Tree* t,int level)
+{	
 	if (t)
 	{
-		View(t->Right);
-		cout << t->info << " ";
-		View(t->Left);
+		
+		View(t->Right,level+1);
+		for (int i = 0;i < level;i++) {
+			cout << "   ";
+		}
+		cout << t->info << endl;
+		View(t->Left, level+1);
 	}
 }
 

@@ -5,3 +5,5 @@ resultFile.txt
 qwe.txt
 file.txt
 resultFiletx.txt
+FileLabaFile.txt
+result.txt
