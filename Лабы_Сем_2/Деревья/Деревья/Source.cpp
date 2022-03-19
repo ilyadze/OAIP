@@ -21,6 +21,7 @@ Tree* addElement(Tree*, int);
 int main()
 {
 	do {
+		system("cls");
 		bool IsExit = false;
 		Tree* root;
 		cout << "Enter root:" << endl;
@@ -64,7 +65,7 @@ int main()
 				break;
 			}
 			case '4': {
-				bool isExit = true;
+				IsExit = true;
 				break;
 			}
 			default: {
@@ -208,13 +209,13 @@ Tree* Delete(Tree* Root, int key)
 	}
 	if (Del->Right == NULL)
 	{
-		R = Del->Right;
+		R = Del->Left;
 	}
 	else
 	{
 		if (Del->Left == NULL)
 		{
-			R = Del->Left;
+			R = Del->Right;
 		}
 		else
 		{
