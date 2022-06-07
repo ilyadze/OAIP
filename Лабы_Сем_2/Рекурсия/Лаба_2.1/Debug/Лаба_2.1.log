@@ -1,6 +1,6 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: промежуточный каталог (Debug\) содержит файлы, которые используются совместно с другим проектом (Лаба_2.1.vcxproj).  Это может привести к ошибкам очистки и перестроения.
   Source.cpp
-E:\Repository\OAIP\Лабы_Сем_2\Рекурсия\Лаба_2.1\Source.cpp(84,56): warning C4244: +=: преобразование "double" в "int", возможна потеря данных
-E:\Repository\OAIP\Лабы_Сем_2\Рекурсия\Лаба_2.1\Source.cpp(92,56): warning C4244: +=: преобразование "double" в "int", возможна потеря данных
-E:\Repository\OAIP\Лабы_Сем_2\Рекурсия\Лаба_2.1\Source.cpp(106,9): warning C4804: %: небезопасное использование типа "bool" в операции
-  Лаба_2.1.vcxproj -> E:\Repository\OAIP\Лабы_Сем_2\Рекурсия\Debug\Рекурсия.exe
+E:\GitHub\OAIP\Лабы_Сем_2\Рекурсия\Лаба_2.1\Source.cpp(90,56): warning C4244: +=: преобразование "double" в "int", возможна потеря данных
+E:\GitHub\OAIP\Лабы_Сем_2\Рекурсия\Лаба_2.1\Source.cpp(98,56): warning C4244: +=: преобразование "double" в "int", возможна потеря данных
+E:\GitHub\OAIP\Лабы_Сем_2\Рекурсия\Лаба_2.1\Source.cpp(112,9): warning C4804: %: небезопасное использование типа "bool" в операции
+  Лаба_2.1.vcxproj -> E:\GitHub\OAIP\Лабы_Сем_2\Рекурсия\Debug\Рекурсия.exe

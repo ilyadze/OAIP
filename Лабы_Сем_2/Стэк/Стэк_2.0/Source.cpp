@@ -1,5 +1,6 @@
 #include <iostream>
 #include <conio.h>
+#include <Windows.h>
 
 using namespace std;
 
@@ -14,161 +15,206 @@ void View(Stack*);
 Stack* InStack(Stack*, int);
 Stack* OutStack(Stack*, int*);
 void Delete_All(Stack**);
-void Sort_info(Stack*);
-int searchMax(Stack*);
-int searchMin(Stack*);
+void SortInfoInAscendingOrder(Stack*);
+void SortInfoInDescendingOrder(Stack*);
+int* searchMax(Stack*, int&);
+int* searchMin(Stack*, int&);
 Stack* DistanceBetweenMinMax(Stack*,int, int);
 int sizeOfStack(Stack*);
-Stack* copyInformationToNewStack(Stack*);
+void copyInformationToNewStack(Stack*,Stack*&);
 Stack* deleteNegativeNumber(Stack*);
+int inputNumber();
+bool isNumberNumeric();
+Stack* reverseStack(Stack*);
+void viewElements(Stack*, int*);
+int* resizeArray(int, int, int*);
 
-
-int main()
-{
+int main() {
 	srand(time(NULL));
 	Stack* begin = NULL;
-	do
-	{	
+	do {	
 		system("cls");
 		
 		cout << "Enter stack size" << endl;
 		int stackSize;
-		cin >> stackSize;
+		stackSize = inputNumber();
+		if (stackSize <= 0) {
+			break;
+		}
 		bool isExitInProgram = false;
 		system("cls");
 		cout << "Select stack fill option" << endl
 			<< "1.By hand" << endl
 			<< "2.Computer" << endl
 			<< "Exit the programm" << endl;
-		switch (_getch())
-		{
-		case '1':
-		{
+		switch (_getch()) {
+		case '1': {
 			cout << "Fill stack" << endl;
-			for (int i = 0; i < stackSize;i++)
-			{
+			for (int i = 0; i < stackSize;i++) {
 				int stackElement;
-				cin >> stackElement;
+				stackElement = inputNumber();
 				begin = InStack(begin, stackElement);
 			}
 			break;
 		}
-		case '2':
-		{
-			for (int i = 0;i < stackSize;i++)
-			{
+		case '2': {
+			for (int i = 0;i < stackSize;i++) {
 				int stackElement;
 				stackElement = rand() % 21 - 10;
 				begin = InStack(begin, stackElement);
 			}
 			break;
 		}
-		default:
-		{
+		default: {
 			isExitInProgram = true;
 			break;
 		}
 		}
-		if (isExitInProgram)
-		{
+		if (isExitInProgram) {
 			break;
 		}
 		system("cls");
 		View(begin);
 		_getch();
-		do
-		{
+		do {
 			system("cls");
-			bool isExit = false;
-			Stack* newBegin = copyInformationToNewStack(begin);
+			bool isExit = false,isEdit = false;
+			Stack* newBegin;
+			copyInformationToNewStack(begin, newBegin);
 			cout << "Select the option to work with stack:" << endl
 				<< "1.Sort information" << endl
 				<< "2.Add element to stack" << endl
-				<< "3. Delete element with min max elements" << endl
+				<< "3.Delete element with min max elements" << endl
 				<< "4.Delete negative number" << endl
-				<< "Back to create stack" << endl;
-			switch (_getch())
-			{
-			case '1':
-			{
+				<< "5.Back to create stack" << endl
+				<< "Exit" << endl;
+			switch (_getch()) {
+			case '1': {
 				system("cls");
-				Sort_info(newBegin);
-				cout << "Old ";
-				View(begin);
-				cout << "\nNew ";
-				View(newBegin);
-				_getch();
+				bool isBack = false;
+				cout << "1.In descending order" << endl
+					<< "2.In ascending order" << endl
+					<< "Back" << endl;
+				switch (_getch()) {
+				case '1': {
+					SortInfoInDescendingOrder(newBegin);
+					break;
+				}
+				case '2': {
+					SortInfoInAscendingOrder(newBegin);
+					break;
+				}
+				default: {
+					isBack = true;
+				}
+				}
+				if (!isBack) {
+					cout << "Old ";
+					View(begin);
+					cout << "\nNew ";
+					View(newBegin);
+					isEdit = true;
+					_getch();
+				}
 				break;
 			}
-			case '2':
-			{
+			case '2': {
 				system("cls");
 				cout << "Enter the number of elements" << endl;
 				int number;
-				cin >> number;
-				for (int i = 0;i < number;i++)
-				{
-					cout << "Enter info" << endl;
+				number = inputNumber();
+				for (int i = 0;i < number;i++) {
+					cout << "Enter number" << endl;
 					int info;
-					cin >> info;
+					info = inputNumber();
 					begin = InStack(begin, info);
 				}
 				cout << "New ";
 				View(begin);
+				break;
 			}
-			case '3':
-			{
-				int maxElement, minElement;
-				maxElement = searchMax(newBegin);
-				minElement = searchMin(newBegin);
-				if (maxElement == minElement)
-				{
+			case '3': {
+				int* maxElement,* minElement;
+				int numberOfMaxElements = 0, numberOfMinElements = 0;
+				maxElement = searchMax(newBegin,numberOfMaxElements);
+				minElement = searchMin(newBegin,numberOfMinElements);
+				int indexOfMaxElement = 0, indexOfMinElement = 0;
+				viewElements(begin, maxElement);
+				if (numberOfMaxElements != 1) {
+					system("cls");
+					viewElements(begin, maxElement);
+					cout << "Enter max element" << endl;
+					indexOfMaxElement = inputNumber();
+					if (indexOfMaxElement <= 0) {
+						break;
+					}
+					indexOfMaxElement--;
+				}
+				if (numberOfMinElements != 1) {
+					system("cls");
+					viewElements(begin, minElement);
+					cout << "Enter min element" << endl;
+					indexOfMinElement = inputNumber();
+					if (indexOfMinElement <= 0) {
+						break;
+					}
+					indexOfMinElement--;
+				}
+				
+				if (maxElement[indexOfMinElement] == minElement[indexOfMinElement]) {
 					system("cls");
 					cout << "Error, all elements are equals" << endl;
-					return 0;
+					_getch();
+					break;
 				}
-				if (abs(minElement - maxElement) == 1)
-				{
+				if (abs(minElement[indexOfMinElement] - maxElement[indexOfMaxElement]) == 1) {
 					system("cls");
 					cout << "Min and Max elements are next to each other" << endl;
-					return 0;
+					_getch();
+					break;
 				}
-				newBegin = DistanceBetweenMinMax(newBegin, minElement, maxElement);
+				newBegin = DistanceBetweenMinMax(newBegin, minElement[indexOfMinElement], maxElement[indexOfMaxElement]);
+				newBegin = reverseStack(newBegin);
 				system("cls");
 				cout << "Old ";
 				View(begin);
 				cout << "New ";
-				ViewR(newBegin);
+				View(newBegin);
 				cout << "\nSize of new Stack - " << sizeOfStack(newBegin) << endl;
+				isEdit = true;
 				_getch();
 				break;
 			}
-			case '4':
-			{
+			case '4': {
 				system("cls");
 				newBegin = deleteNegativeNumber(newBegin);
+				newBegin = reverseStack(newBegin);
 				cout << "Old";
 				View(begin);
 				cout << "New ";
 				View(newBegin);
+				isEdit = true;
 				_getch();
 				break;
 			}
-			default:
-			{
+			case '5': {
 				isExit = true;
+				break;
+			}
+			default: {
+				return 0;
 			}
 			}
-			if (isExit)
-			{
+			if (isExit) {
 				Delete_All(&newBegin);
 				break;
 			}
-			cout << "If you want to work with the new stack press 1" << endl;
-			if (_getch() == '1')
-			{
-				Delete_All(&begin);
-				begin = copyInformationToNewStack(newBegin);
+			if (isEdit) {
+				cout << "If you want to work with the new stack press 1" << endl;
+				if (_getch() == '1') {
+					Delete_All(&begin);
+					copyInformationToNewStack(newBegin, begin);
+				}
 			}
 			Delete_All(&newBegin);
 			
@@ -187,18 +233,15 @@ Stack* InStack(Stack* p, int in) {
 }
 
 void View(Stack* p) {
-	Stack* t = p;
 	cout << "Stack: ";
-	while (t != NULL) {
-		cout << t->info << " ";
-		t = t->next;
+	while (p != NULL) {
+		cout << p->info << " ";
+		p = p->next;
 	}
 	cout << endl;
 }
-void ViewR(Stack* p)
-{
-	if (p != NULL)
-	{
+void ViewR(Stack* p) {
+	if (p != NULL) {
 		ViewR(p->next);
 		cout << p->info << " ";
 	}
@@ -221,58 +264,93 @@ void Delete_All(Stack** p) {
 	}
 }
 
-void Sort_info(Stack* p) {
+void SortInfoInAscendingOrder(Stack* p) {
 	Stack* t = NULL, * t1;
 	int r;
 	do {
-		for (t1 = p; t1->next != t; t1 = t1->next)
-			if (t1->info > t1->next->info) 
-			{
+		for (t1 = p; t1->next != t; t1 = t1->next) {
+			if (t1->info > t1->next->info) {
 				r = t1->info;
 				t1->info = t1->next->info;
 				t1->next->info = r;
 			}
+		}
 		t = t1;
 	} while (p->next != t);
 }
 
-int searchMax(Stack* p)
-{
-	if (p == NULL)
-	{
+void SortInfoInDescendingOrder(Stack* p) {
+	Stack* t = NULL, * t1;
+	int r;
+	do {
+		for (t1 = p; t1->next != t; t1 = t1->next) {
+			if (t1->info < t1->next->info) {
+				r = t1->info;
+				t1->info = t1->next->info;
+				t1->next->info = r;
+			}
+		}
+		t = t1;
+	} while (p->next != t);
+}
+
+int* searchMax(Stack* begin,int& numberOfMaxElements) {
+	if (begin == NULL) {
 		return NULL;
 	}
-	int indexOfMaxElement = 0,maxElement = p->info,i = 0;
-	while (p != NULL)
-	{
-		if (p->info > maxElement)
-		{
-			maxElement = p->info;
-			indexOfMaxElement = i;
+	int maxElement = begin->info;
+	Stack* p = begin;
+	while (begin != NULL) {
+		if (begin->info > maxElement) {
+			maxElement = begin->info;
+		}
+		begin = begin->next;
+	}
+	int size = sizeOfStack(p);
+	int* indexOfMaxElement = new int[size];
+	int i = 0, j = 0;
+	while (p != NULL) {
+		if (p->info == maxElement) {
+			indexOfMaxElement[j++] = i;
 		}
 		i++;
 		p = p->next;
+	}
+	numberOfMaxElements = j;
+	if (numberOfMaxElements < size) {
+		indexOfMaxElement = resizeArray(size, numberOfMaxElements, indexOfMaxElement);
 	}
 	return indexOfMaxElement;
 }
 
-int searchMin(Stack* p)
+int* searchMin(Stack* begin,int& numberOfMinElements)
 {
-	if (p == NULL)
-	{
+	if (begin == NULL) {
 		return NULL;
 	}
-	int indexOfMinElement = 0, minElement = p->info, i = 0;
-	while (p != NULL)
-	{
-		if (p->info < minElement)
-		{
-			minElement = p->info;
-			indexOfMinElement = i;
+	int minElement = begin->info;
+	Stack* p = begin;
+	while (begin != NULL) {
+		if (begin->info < minElement) {
+			minElement = begin->info;
+		}
+		begin = begin->next;
+	}
+	int size = sizeOfStack(p);
+	int* indexOfMinElement = new int[size];
+	int i = 0, j = 0;
+	while (p != NULL) {
+		if (p->info == minElement) {
+			indexOfMinElement[j++] = i;
 		}
 		i++;
 		p = p->next;
 	}
+	numberOfMinElements = j;
+	if (numberOfMinElements < size) {
+		indexOfMinElement = resizeArray(size, numberOfMinElements, indexOfMinElement);
+	}
+	
 	return indexOfMinElement;
 }
 
@@ -301,8 +379,17 @@ Stack* DistanceBetweenMinMax(Stack* p, int min, int max)
 	return newStack;
 }
 
-int sizeOfStack(Stack* begin)
-{
+Stack* reverseStack(Stack* begin) {
+	Stack* newStack = NULL, *t = begin;
+	while (begin != NULL) {
+		newStack = InStack(newStack,begin->info);
+		begin = begin->next;
+	}
+	Delete_All(&t);
+	return newStack;
+}
+
+int sizeOfStack(Stack* begin) {
 	int sizeOfStack = 0;
 	while (begin != NULL)
 	{
@@ -312,15 +399,15 @@ int sizeOfStack(Stack* begin)
 	return sizeOfStack;
 }
 
-Stack* copyInformationToNewStack(Stack* begin)
+void copyInformationToNewStack(Stack* begin, Stack*& newStack)
 {
-	Stack* newStack = NULL;
-	while (begin != NULL)
-	{
+	if (begin != NULL) {
+		copyInformationToNewStack(begin->next, newStack);
 		newStack = InStack(newStack, begin->info);
-		begin = begin->next;
 	}
-	return newStack;
+	else {
+		newStack = NULL;
+	}
 }
 
 Stack* deleteNegativeNumber(Stack* p)
@@ -339,3 +426,67 @@ Stack* deleteNegativeNumber(Stack* p)
 	Delete_All(&z);
 	return newStack;
 }
+
+
+int inputNumber() {
+	int number;
+	while (true) {
+		cin >> number;
+		if (isNumberNumeric()) {
+			return number;
+		}
+
+	}
+}
+
+bool isNumberNumeric() {
+	if (cin.get() == '\n') {
+		return true;
+	}
+	else {
+		cin.clear();
+		cin.ignore(32767, '\n');
+		cout << "Error, incorrect input" << endl;
+		Sleep(3000);
+		cout << "Enter again" << endl;
+		return false;
+	}
+}
+
+
+
+int* resizeArray(int oldSize, int newSize, int* array)
+{
+	if (oldSize == newSize)
+	{
+		return array;
+	}
+	int* newArray = new int[newSize];
+	oldSize = newSize < oldSize ? newSize : oldSize;
+	for (int i = 0;i < oldSize;i++)
+	{
+		newArray[i] = array[i];
+	}
+	delete[] array;
+	return newArray;
+}
+
+
+void viewElements(Stack* begin, int* elements) {
+	cout << "Stack: ";
+	int i = 0,j = 0;
+	while (begin != NULL) {
+		
+		if (i == elements[j]) {
+			cout << "|" << begin->info << "| ";
+			j++;
+		}
+		else {
+			cout << begin->info << " ";
+		}
+		begin = begin->next;
+		i++;
+	}
+	cout << endl;
+}
+

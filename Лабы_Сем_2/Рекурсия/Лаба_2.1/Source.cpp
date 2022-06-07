@@ -1,5 +1,6 @@
 #include <iostream>
 #include <conio.h>
+#include <Windows.h>
 
 using namespace std;
 
@@ -23,13 +24,18 @@ int main() {
 		case '1': {
 			system("cls");
 			int numberOne, numberTwo;
-			cout << "Enter first number" << endl;
+			cout << "Enter number" << endl;
 			numberOne = inputNumber();
-			cout << "Enter second number" << endl;
+			system("cls");
+			cout << "Enter number" << endl;
 			numberTwo = inputNumber();
-			cout << "nod = " << nod(numberOne,numberTwo) << endl;
-			cout << "Nod = " << Nod(numberOne, numberTwo) << endl;
-			cout << "Nod(through the loop) = " << nodThroughTheLoop(numberOne, numberTwo) << endl;
+			system("cls");
+			
+			cout << "First number = " << numberOne << endl
+				<< "Second number = " << numberTwo << endl
+				<< "nod = " << nod(numberOne,numberTwo) << endl
+				<< "Nod = " << Nod(numberOne, numberTwo) << endl
+				<< "Nod(through the loop) = " << nodThroughTheLoop(numberOne, numberTwo) << endl;
 			_getch();
 			break;
 		}
@@ -60,12 +66,12 @@ int Nod(int firstNumber, int secondNumber) {
 }
 
 int nodThroughTheLoop(int firstNumber, int secondNumber) {
-	while (secondNumber != 0) {
-		firstNumber = Nod(secondNumber, firstNumber % secondNumber);
-		secondNumber = firstNumber % secondNumber;
-		
+	while (firstNumber != 0) {
+		int number = firstNumber;
+		firstNumber = secondNumber % firstNumber;
+		secondNumber = number;
 	}
-	return firstNumber;
+	return secondNumber;
 }
 
 int NumberOfDigits(int number) {
@@ -138,11 +144,12 @@ bool isNumberNumeric() {
 		return true;
 	}
 	else {
-		system("cls");
 		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cin.ignore(32767, '\n');
 		cout << "Error, incorrect input" << endl;
-		system("pause");
+		Sleep(3000);
+		system("cls");
+		cout << "Enter number" << endl;
 		return false;
 	}
 }
