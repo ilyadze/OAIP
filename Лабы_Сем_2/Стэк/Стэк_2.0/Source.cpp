@@ -28,6 +28,7 @@ bool isNumberNumeric();
 Stack* reverseStack(Stack*);
 void viewElements(Stack*, int*);
 int* resizeArray(int, int, int*);
+void deleteElement(Stack*&, int);
 
 int main() {
 	srand(time(NULL));
@@ -84,9 +85,10 @@ int main() {
 			cout << "Select the option to work with stack:" << endl
 				<< "1.Sort information" << endl
 				<< "2.Add element to stack" << endl
-				<< "3.Delete element with min max elements" << endl
-				<< "4.Delete negative number" << endl
-				<< "5.Back to create stack" << endl
+				<< "3.Delete one element" << endl
+				<< "4.Delete element with min max elements" << endl
+				<< "5.Delete negative number" << endl
+				<< "6.Back to create stack" << endl
 				<< "Exit" << endl;
 			switch (_getch()) {
 			case '1': {
@@ -123,17 +125,42 @@ int main() {
 				cout << "Enter the number of elements" << endl;
 				int number;
 				number = inputNumber();
+				if (number <= 0) {
+					break;
+				}
 				for (int i = 0;i < number;i++) {
 					cout << "Enter number" << endl;
 					int info;
 					info = inputNumber();
-					begin = InStack(begin, info);
+					newBegin = InStack(newBegin, info);
 				}
-				cout << "New ";
+				cout << "Old ";
 				View(begin);
+				cout << "New ";
+				View(newBegin);
+				isEdit = true;
+				_getch();
 				break;
 			}
 			case '3': {
+				system("cls");
+				View(begin);
+				cout << "Enter the number of element" << endl;
+				int number;
+				number = inputNumber();
+				if (number <= 0) {
+					break;
+				}
+				deleteElement(newBegin, --number);
+				cout << "Old ";
+				View(begin);
+				cout << "New ";
+				View(newBegin);
+				isEdit = true;
+				_getch();
+				break;
+			}
+			case '4': {
 				int* maxElement,* minElement;
 				int numberOfMaxElements = 0, numberOfMinElements = 0;
 				maxElement = searchMax(newBegin,numberOfMaxElements);
@@ -185,7 +212,7 @@ int main() {
 				_getch();
 				break;
 			}
-			case '4': {
+			case '5': {
 				system("cls");
 				newBegin = deleteNegativeNumber(newBegin);
 				newBegin = reverseStack(newBegin);
@@ -197,7 +224,7 @@ int main() {
 				_getch();
 				break;
 			}
-			case '5': {
+			case '6': {
 				isExit = true;
 				break;
 			}
@@ -490,3 +517,26 @@ void viewElements(Stack* begin, int* elements) {
 	cout << endl;
 }
 
+void deleteElement(Stack*& begin, int indexOfElement) {
+	Stack* prevElement = begin,* element = begin;
+	for (int i = 0;element != NULL;i++) {
+		if (i == indexOfElement) {
+			Stack* p = element;
+			if (prevElement == element) {
+				begin = begin->next;
+			}
+			else {
+				if (element->next != NULL) {
+					prevElement->next = element->next;
+				}
+				else {
+					prevElement->next = NULL;
+				}
+			}
+			delete p;
+			break;
+		}
+		prevElement = element;
+		element = element->next;
+	}
+}
