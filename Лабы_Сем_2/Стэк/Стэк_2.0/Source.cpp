@@ -166,7 +166,6 @@ int main() {
 				maxElement = searchMax(newBegin,numberOfMaxElements);
 				minElement = searchMin(newBegin,numberOfMinElements);
 				int indexOfMaxElement = 0, indexOfMinElement = 0;
-				viewElements(begin, maxElement);
 				if (numberOfMaxElements != 1) {
 					system("cls");
 					viewElements(begin, maxElement);
@@ -479,8 +478,6 @@ bool isNumberNumeric() {
 		return false;
 	}
 }
-
-
 
 int* resizeArray(int oldSize, int newSize, int* array)
 {
